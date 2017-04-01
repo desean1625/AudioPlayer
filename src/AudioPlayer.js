@@ -1,5 +1,5 @@
 (function(window, undefined) {
-    var AudioPlayer = function(div, options) {
+    var AudioPlayer = function(container, options) {
         //var context, analyser, audioNode, plot, accordion, whiteLine,playButton;
         defaultOptions = {
             fftSize: 1024,
@@ -17,12 +17,12 @@
         stopButton.onclick = function(){
             that.stop();
         }
-        if (typeof div == "string") div = document.querySelector("div");
+        if (typeof container == "string") container = document.querySelector(container);
         buttonContainer = document.createElement("div")
         buttonContainer.appendChild(playButton)
         buttonContainer.appendChild(stopButton)
-        div.appendChild(buttonContainer)
-        plot = new sigplot.Plot(div, {
+        container.appendChild(buttonContainer)
+        plot = new sigplot.Plot(container, {
             autohide_panbars: true,
             //rightclick_rubberbox_action: "select",
             rubberbox_mode: "horizontal",
