@@ -6,12 +6,13 @@
             averaging: 0,
         };
         that = this;
+        that._events = {};
         if (typeof div == "string") div = document.querySelector("div");
         plot = new sigplot.Plot(div, {
             autohide_panbars: true,
             //rightclick_rubberbox_action: "select",
-            //rightclick_rubberbox_mode: "horizontal",
-            rubberbox_action: "zoom"
+            rubberbox_mode: "horizontal",
+            rubberbox_action: "select"
         });
         accordion = new sigplot.AccordionPlugin({
             draw_center_line: true,
@@ -38,6 +39,21 @@
         whiteLine.set_center(0);
         whiteLine.set_width(0);
         whiteLine.set_visible(true);
+        plot.addListener("mtag",function(evt){
+            if(evt.w == undefined)return;
+            that.emit("select",{start:evt.x,stop:evt.x + evt.w});
+        });
+        this.on = function(type,handler){
+            if(!that._events[type]) that._events[type] = [];
+            that._events[type].push(handler);
+        }
+        this.emit = function(type,event){
+            if(!that._events[type]) that._events[type] = [];
+            if(that._events[type].length == 0) return;
+            for (var i = 0; i < that._events[type].length; i++) {
+                that._events[type][i].call(this,event);
+            }
+        }
         plot.addListener("mdown", function(evt) {
             if (evt.which != 3) {
                 that._start = null;
