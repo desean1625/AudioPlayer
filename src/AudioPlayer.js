@@ -1,13 +1,27 @@
 (function(window, undefined) {
     var AudioPlayer = function(div, options) {
-        //var context, analyser, audioNode, plot, accordion, whiteLine;
+        //var context, analyser, audioNode, plot, accordion, whiteLine,playButton;
         defaultOptions = {
             fftSize: 1024,
             averaging: 0,
         };
         that = this;
         that._events = {};
+        playButton = document.createElement("button");
+        playButton.innerHTML = "Play";
+        playButton.onclick = function(){
+            that.play();
+        }
+        stopButton = document.createElement("button");
+        stopButton.innerHTML = "Stop";
+        stopButton.onclick = function(){
+            that.stop();
+        }
         if (typeof div == "string") div = document.querySelector("div");
+        buttonContainer = document.createElement("div")
+        buttonContainer.appendChild(playButton)
+        buttonContainer.appendChild(stopButton)
+        div.appendChild(buttonContainer)
         plot = new sigplot.Plot(div, {
             autohide_panbars: true,
             //rightclick_rubberbox_action: "select",
@@ -119,7 +133,7 @@
             console.log(e);
         }
         this.play = function(start) {
-            if (!this._buffer) {
+            if (!buffer) {
                 console.log("No audio Loaded");
                 return;
             }
