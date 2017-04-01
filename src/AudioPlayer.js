@@ -18,7 +18,10 @@
             that.stop();
         }
         if (typeof container == "string") container = document.querySelector(container);
+        container.style.position = "relative"
         buttonContainer = document.createElement("div")
+        buttonContainer.style.position = "absolute";
+        buttonContainer.style['z-index'] = "1";
         buttonContainer.appendChild(playButton)
         buttonContainer.appendChild(stopButton)
         container.appendChild(buttonContainer)
@@ -28,6 +31,7 @@
             rubberbox_mode: "horizontal",
             rubberbox_action: "select"
         });
+
         accordion = new sigplot.AccordionPlugin({
             draw_center_line: true,
             shade_area: true,
