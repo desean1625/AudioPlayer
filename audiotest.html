@@ -1,0 +1,22 @@
+
+<head>
+<script src="./vendor/sigplot-minimized.js"></script>
+<script src="./vendor/sigplot.plugins-minimized.js"></script>
+<script src="./src/AudioPlayer.js"></script>
+
+
+</head>
+
+
+<div id="wrapper" style="width:800px;height:400px"></div>
+
+<script>
+
+
+a = new AudioPlayer("#wrapper",{
+        fftSize: 1024,
+        averaging: 0,
+    });
+
+a.load("./audio/wagner-short.ogg");
+</script>
