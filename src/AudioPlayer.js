@@ -31,7 +31,10 @@
             rubberbox_mode: "horizontal",
             rubberbox_action: "select"
         });
-
+        plot.chande_settings({            
+            show_y_axis:false,
+            show_readout:false
+        })
         accordion = new sigplot.AccordionPlugin({
             draw_center_line: true,
             shade_area: true,
