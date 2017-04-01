@@ -21,7 +21,7 @@
         container.style.position = "relative"
         buttonContainer = document.createElement("div")
         buttonContainer.style.position = "absolute";
-        buttonContainer.style['z-index'] = "1";
+        buttonContainer.style['z-index'] = "2";
         buttonContainer.appendChild(playButton)
         buttonContainer.appendChild(stopButton)
         container.appendChild(buttonContainer)
@@ -31,7 +31,7 @@
             rubberbox_mode: "horizontal",
             rubberbox_action: "select"
         });
-        plot.chande_settings({            
+        plot.change_settings({            
             show_y_axis:false,
             show_readout:false
         })
