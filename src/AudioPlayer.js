@@ -124,7 +124,9 @@
                     var overrides = {
                         xdelta: 1 / buffer._buffer.sampleRate
                     }
+
                     plot.overlay_array(buffer._buffer.getChannelData(0), overrides);
+                    plot.change_settings({xmin:0,xmax:buff.duration});
                     var timer = function() {
                         setTimeout(function() {
                             whiteLine.set_center(buffer.getTime());
