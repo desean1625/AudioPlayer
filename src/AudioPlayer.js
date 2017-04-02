@@ -1,20 +1,38 @@
-(function(window, undefined) {
-    var AudioPlayer = function(container, options) {
-        //var context, analyser, audioNode, plot, accordion, whiteLine,playButton;
-        defaultOptions = {
+"use strict";
+var AudioPlayer;
+AudioPlayer = (function(window, undefined) {
+    AudioPlayer = function(container, options) {
+        "use strict";
+        var context, analyser, audioNode, plot, accordion, whiteLine;
+        var playButton, defaultOptions, that, stopButton, buttonContainer, buffer, setoptions;
+        //Updates destenation object with source values
+        setoptions = function(dst, src) {
+            for (var prop in src) {
+                var val = src[prop];
+                if (typeof val === "object") { // recursive
+                    update(dst[prop], val);
+                } else {
+                    dst[prop] = val;
+                }
+            }
+            return dst; // return dst to allow method chaining
+        }
+        this.defaultOptions = {
             fftSize: 1024,
             averaging: 0,
         };
+        this.options = setoptions({},this.defaultOptions);
+        this.options = setoptions(this.options,options);
         that = this;
         that._events = {};
         playButton = document.createElement("button");
         playButton.innerHTML = "Play";
-        playButton.onclick = function(){
+        playButton.onclick = function() {
             that.play();
         }
         stopButton = document.createElement("button");
         stopButton.innerHTML = "Stop";
-        stopButton.onclick = function(){
+        stopButton.onclick = function() {
             that.stop();
         }
         if (typeof container == "string") container = document.querySelector(container);
@@ -31,9 +49,9 @@
             rubberbox_mode: "horizontal",
             rubberbox_action: "select"
         });
-        plot.change_settings({            
-            show_y_axis:false,
-            show_readout:false
+        plot.change_settings({
+            show_y_axis: false,
+            show_readout: false
         })
         accordion = new sigplot.AccordionPlugin({
             draw_center_line: true,
@@ -60,19 +78,22 @@
         whiteLine.set_center(0);
         whiteLine.set_width(0);
         whiteLine.set_visible(true);
-        plot.addListener("mtag",function(evt){
-            if(evt.w == undefined)return;
-            that.emit("select",{start:evt.x,stop:evt.x + evt.w});
+        plot.addListener("mtag", function(evt) {
+            if (evt.w == undefined) return;
+            that.emit("select", {
+                start: evt.x,
+                stop: evt.x + evt.w
+            });
         });
-        this.on = function(type,handler){
-            if(!that._events[type]) that._events[type] = [];
+        this.on = function(type, handler) {
+            if (!that._events[type]) that._events[type] = [];
             that._events[type].push(handler);
         }
-        this.emit = function(type,event){
-            if(!that._events[type]) that._events[type] = [];
-            if(that._events[type].length == 0) return;
+        this.emit = function(type, event) {
+            if (!that._events[type]) that._events[type] = [];
+            if (that._events[type].length == 0) return;
             for (var i = 0; i < that._events[type].length; i++) {
-                that._events[type][i].call(this,event);
+                that._events[type][i].call(this, event);
             }
         }
         plot.addListener("mdown", function(evt) {
@@ -102,8 +123,8 @@
         context = new AudioContext();
         analyser = context.createAnalyser();
         analyser.smoothingTimeConstant = 0;
-        analyser.fftSize = options.fftSize;
-        audioNode = context.createScriptProcessor(options.fftSize * 2, 1, 1);
+        analyser.fftSize = this.options.fftSize;
+        audioNode = context.createScriptProcessor(this.options.fftSize * 2, 1, 1);
         audioNode.connect(context.destination);
         audioNode.onaudioprocess = function() {
             // get the average for the first channel
@@ -124,9 +145,11 @@
                     var overrides = {
                         xdelta: 1 / buffer._buffer.sampleRate
                     }
-
                     plot.overlay_array(buffer._buffer.getChannelData(0), overrides);
-                    plot.change_settings({xmin:0,xmax:buff.duration});
+                    plot.change_settings({
+                        xmin: 0,
+                        xmax: buff.duration
+                    });
                     var timer = function() {
                         setTimeout(function() {
                             whiteLine.set_center(buffer.getTime());
@@ -164,7 +187,6 @@
             accordion.set_visible(true);
         }
     }
-    window.AudioPlayer = AudioPlayer;
     var AudioBuff = function(audioContext, buffer) {
         this._audioContext = audioContext;
         this._buffer = buffer; // AudioBuffer
@@ -208,15 +230,14 @@
         this.loop = function(start, stop) {
             console.log("Looping " + start + " " + stop);
             this.stop();
-            if(start == stop){
+            if (start == stop) {
                 this.play(start);
                 return;
             }
-            if(stop < start){
+            if (stop < start) {
                 var tmp = start;
                 start = stop;
                 stop = tmp;
-                delete tmp;
             }
             this.initSource();
             this._loop = true;
@@ -252,7 +273,7 @@
         }
         this.getTime = function() {
             //console.log(this._isPlaying)
-            if(!this._isPlaying) return 0;
+            if (!this._isPlaying) return 0;
             if (this._loop && ((Date.now() - this._startTimestamp) / 1000 + this._playbackTime) > this._source.loopEnd) this._startTimestamp = Date.now();
             return this._isPlaying ? (Date.now() - this._startTimestamp) / 1000 + this._playbackTime : 0;
         }
@@ -267,4 +288,5 @@
             this.initNewBuffer(this._buffer);
         });
     };
+    return AudioPlayer;
 })(window);
