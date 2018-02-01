@@ -1,0 +1,64 @@
+{
+  "name": "audioplayer",
+  "description": "Advanced pAudioPlayer that includes visualization of the waveform",
+  "version": "0.0.1",
+  "homepage": "https://github.com/desean1625/AudioPlayer",
+  "main": "src/index.js",
+  "files": [],
+  "author": {
+    "name": "Sean Sullivan",
+    "email": "sigplot@lgsinnovations.com",
+    "url": "https://github.com/desean1625"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/desean1625/AudioPlayer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/desean1625/AudioPlayer/issues"
+  },
+  "licenses": [
+    {
+      "type": "apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "scripts": {
+    "test": "grunt test",
+    "publish": "grunt dist && npm publish"
+  },
+  "dependencies": {
+    "object-assign-shim": "^1.0.0"
+  },
+  "devDependencies": {
+    "catharsis": "^0.7.0",
+    "express": "^4.13.4",
+    "grunt": "^0.4.1",
+    "grunt-browserify": "^5.0.0",
+    "grunt-cli": "^0.1.9",
+    "grunt-closure-compiler": "^0.0.21",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-compress": "^0.9.1",
+    "grunt-contrib-concat": "^0.3.0",
+    "grunt-contrib-jshint": "^0.8.0",
+    "grunt-contrib-qunit": "^0.5.0",
+    "grunt-express-server": "^0.5.3",
+    "grunt-jsbeautifier": "^0.2.13",
+    "grunt-jsdoc": "^0.5.4",
+    "grunt-karma": "^0.12.2",
+    "grunt-open": "^0.2.3",
+    "grunt-services": "^0.1.0",
+    "grunt-shell-spawn": "^0.3.10",
+    "grunt-text-replace": "^0.4.0",
+    "grunt-web-server": "^1.2.3",
+    "jasmine": "^2.4.1",
+    "karma": "^0.13.0",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-firefox-launcher": "^1.0.0",
+    "karma-jasmine": "^0.3.8",
+    "karma-qunit": "^1.1.0",
+    "marked": "^0.3.6",
+    "qunitjs": "^1.13.0",
+    "taffydb": "^2.7.3"
+  }
+}
