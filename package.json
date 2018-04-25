@@ -1,7 +1,7 @@
 {
   "name": "audioplot",
   "description": "Advanced AudioPlayer that includes visualization of the waveform",
-  "version": "0.0.1",
+  "version": "0.0.11",
   "homepage": "https://github.com/desean1625/AudioPlayer",
   "main": "src/index.js",
   "files": [],
