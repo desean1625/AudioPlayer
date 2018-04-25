@@ -1,13 +1,13 @@
 {
-  "name": "audioplayer",
-  "description": "Advanced pAudioPlayer that includes visualization of the waveform",
+  "name": "AudioPlot",
+  "description": "Advanced AudioPlayer that includes visualization of the waveform",
   "version": "0.0.1",
   "homepage": "https://github.com/desean1625/AudioPlayer",
   "main": "src/index.js",
   "files": [],
   "author": {
     "name": "Sean Sullivan",
-    "email": "sigplot@lgsinnovations.com",
+    "email": "",
     "url": "https://github.com/desean1625"
   },
   "repository": {
