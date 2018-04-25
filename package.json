@@ -4,7 +4,10 @@
   "version": "0.0.111111",
   "homepage": "https://github.com/desean1625/AudioPlayer",
   "main": "src/index.js",
-  "files": ["src","dist"],
+  "files": [
+    "src",
+    "dist"
+  ],
   "author": {
     "name": "Sean Sullivan",
     "email": "",
@@ -23,42 +26,34 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0"
     }
   ],
-  "scripts": {
-    "test": "grunt test",
-    "prepublish": "grunt dist"
-  },
+  "scripts": {},
   "dependencies": {
+    "compression": "^1.7.2",
+    "express": "^4.16.3",
     "object-assign-shim": "^1.0.0"
   },
   "devDependencies": {
-    "catharsis": "^0.7.0",
-    "express": "^4.13.4",
-    "grunt": "^0.4.1",
-    "grunt-browserify": "^5.0.0",
-    "grunt-cli": "^0.1.9",
-    "grunt-closure-compiler": "^0.0.21",
-    "grunt-contrib-clean": "^0.5.0",
-    "grunt-contrib-compress": "^0.9.1",
-    "grunt-contrib-concat": "^0.3.0",
-    "grunt-contrib-jshint": "^0.8.0",
-    "grunt-contrib-qunit": "^0.5.0",
-    "grunt-express-server": "^0.5.3",
-    "grunt-jsbeautifier": "^0.2.13",
-    "grunt-jsdoc": "^0.5.4",
-    "grunt-karma": "^0.12.2",
-    "grunt-open": "^0.2.3",
-    "grunt-services": "^0.1.0",
-    "grunt-shell-spawn": "^0.3.10",
-    "grunt-text-replace": "^0.4.0",
-    "grunt-web-server": "^1.2.3",
-    "jasmine": "^2.4.1",
-    "karma": "^0.13.0",
-    "karma-chrome-launcher": "^1.0.1",
-    "karma-firefox-launcher": "^1.0.0",
-    "karma-jasmine": "^0.3.8",
-    "karma-qunit": "^1.1.0",
-    "marked": "^0.3.6",
-    "qunitjs": "^1.13.0",
-    "taffydb": "^2.7.3"
+    "autoprefixer": "^7.2.5",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-angularjs-annotate": "^0.8.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.9",
+    "ejs": "^2.5.9",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.6",
+    "html-loader": "^0.5.5",
+    "http-proxy": "^1.16.2",
+    "node-sass": "^4.7.2",
+    "postcss-loader": "^2.0.10",
+    "raw-loader": "^0.5.1",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.19.1",
+    "uglifyjs-webpack-plugin": "^1.1.6",
+    "url-loader": "^0.6.2",
+    "webpack": "^3.10.0",
+    "webpack-dev-middleware": "^2.0.4"
   }
 }
