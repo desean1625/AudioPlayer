@@ -1,10 +1,10 @@
 {
-  "name": "audioplot",
+  "name": "test-audioplot",
   "description": "Advanced AudioPlayer that includes visualization of the waveform",
-  "version": "0.0.11",
+  "version": "0.0.111111",
   "homepage": "https://github.com/desean1625/AudioPlayer",
   "main": "src/index.js",
-  "files": [],
+  "files": ["src","dist"],
   "author": {
     "name": "Sean Sullivan",
     "email": "",
@@ -25,7 +25,7 @@
   ],
   "scripts": {
     "test": "grunt test",
-    "publish": "grunt dist && npm publish"
+    "prepublish": "grunt dist"
   },
   "dependencies": {
     "object-assign-shim": "^1.0.0"

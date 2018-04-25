@@ -61,27 +61,26 @@ module.exports = function(grunt) {
             }
         },
         clean: {
-            build: ["dist/**/*", "!dist/*.zip"],
-            doc: ["doc/**/*", "!doc/*.png", "!doc/Sigplot_Setup.md"]
+            build: ["dist/**/*", "!dist/*.zip"]
         },
         compress: {
             main: {
                 options: {
-                    archive: "dist/sigplot-<%= pkg.version %>-<%= grunt.template.today('yyyy-mm-dd') %>.zip",
+                    archive: "dist/audioplot-<%= pkg.version %>-<%= grunt.template.today('yyyy-mm-dd') %>.zip",
                 },
                 files: [{
                     expand: true,
                     cwd: 'dist/',
                     src: ['*-debug.js'],
-                    dest: 'sigplot-<%= pkg.version %>'
+                    dest: 'audioplot-<%= pkg.version %>'
                 }, {
                     expand: true,
                     cwd: 'dist/',
-                    src: ['*-minimized.js'],
-                    dest: 'sigplot-<%= pkg.version %>'
+                    src: ['*-min.js'],
+                    dest: 'audioplot-<%= pkg.version %>'
                 }, {
                     src: ['doc/**/*'],
-                    dest: 'sigplot-<%= pkg.version %>'
+                    dest: 'audioplot-<%= pkg.version %>'
                 }]
             }
         },
@@ -165,7 +164,7 @@ module.exports = function(grunt) {
     // Check everything is good
     grunt.registerTask('test', ['build', 'qunit']);
     // Build a distributable release
-    grunt.registerTask('dist', ['clean', 'test', 'closure-compiler', 'jsdoc', 'compress']);
+    grunt.registerTask('dist', ['clean', 'compress']);
     // Default task.
     grunt.registerTask('default', 'test');
     // Benchmark in browsers.
