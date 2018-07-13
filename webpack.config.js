@@ -22,19 +22,6 @@ module.exports = {
     },
   },
   externals: {
-    'jquery': 'jQuery',
-    'jquery-ui': 'jQuery',
-    'leaflet': 'L',
-    'leaflet-draw': 'L',
-    'moment': 'moment',
-    'angular': 'angular',
-    'angular-resource': 'angular',
-    'angular-animate': 'angular',
-    'angular-aria': 'angular',
-    'angular-sanitize': 'angular',
-    'bootstrap': 'bootstrap',
-    'ui-leaflet': 'angular.module("ui-leaflet")',
-    'three': 'THREE',
   },
   module: {
     rules: [
@@ -102,12 +89,6 @@ module.exports = {
     new ExtractTextPlugin({
       filename: '[name].css',
       allChunks: true,
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'common',
-      minChunks: (module, count) => {
-        return module.resource && module.resource.split(path.sep).indexOf('node_modules') !== -1;
-      },
     }),
     (function () {
       if (process.env.NODE_ENV !== 'production') {

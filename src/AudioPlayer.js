@@ -15,7 +15,7 @@ Plot.SelectorPlugin = SelectorPlugin;
 Plot.ZoomPlugin = ZoomPlugin;
 Plot.GridPlugin = GridPlugin;
 Plot.SliderPlugin = SliderPlugin;
-var Class = require("./Class");
+
 
 
 
@@ -41,6 +41,7 @@ export class AudioPlayer extends PluginBase {
     if (typeof container === "string") {
       container = document.querySelector(container);
     }
+    this.container = container;
     container.style.position = "relative";
     var buttonContainer = document.createElement("div");
     this.buttonContainer = buttonContainer;
@@ -53,16 +54,19 @@ export class AudioPlayer extends PluginBase {
       opacity: 0.7,
       color: "#ff0000"
     });
-    var plotHeight = container.clientHeight - 30;
     var plotContianer = document.createElement("div");
-    plotContianer.style.height = plotHeight;
     container.appendChild(plotContianer);
+    this._plotContainer = plotContianer;
     this.plot = new Plot(plotContianer, this.options.plot);
+    this.resize();
     this.slider.addTo(this.plot);
     this.callInitHooks();
   }
 
-
+  resize() {
+    this._plotContainer.style.height = this.container.clientHeight - 30 +"px";
+    this.plot._resize();
+  }
 
   getContext() {
     return this.context;

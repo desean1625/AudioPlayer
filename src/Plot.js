@@ -39,7 +39,9 @@ export class Plot extends EventEmitter {
     this._canvas.height = height;
     this._untaintedCanvas.width = width;
     this._untaintedCanvas.height = height;
-    this.plotWaveform(this.xstart, this.xstart);
+    if (width && height) {
+      this.plotWaveform(this.xstart, this.xstart);
+    }
   }
   _setupPlotListeners() {
     var self = this;
@@ -183,12 +185,12 @@ export class Plot extends EventEmitter {
     this.ctx.fillStyle = this.options.traceColor;
     this.ctx.fill();
     this.ctx.fillRect(0 + this.options.marginLeftRight, plotHeight + this.options.marginTopBottom, this._canvas.width - this.options.marginLeftRight - this.options.marginLeftRight, 1);
-    var c = [67, 111, 112, 121, 114, 105, 103, 104, 116, 32, 83, 101, 97, 110, 32, 83, 117, 108, 108, 105, 118, 97, 110];
+    /*var c = [67, 111, 112, 121, 114, 105, 103, 104, 116, 32, 83, 101, 97, 110, 32, 83, 117, 108, 108, 105, 118, 97, 110];
     var l = "";
     for (var i = 0; i < c.length; i++) {
       l += String.fromCharCode(c[i]);
     }
-    this.ctx.fillText(l, 0, 8);
+    this.ctx.fillText(l, 0, 8);*/
     this._untaintedCanvasCTX.drawImage(this._canvas, 0, 0);
     this.emit("replot");
 
@@ -288,6 +290,9 @@ export class Plot extends EventEmitter {
 
   }
   refreshPlugin(plugin) {
+    if(!this._canvas.width || !this._canvas.height){
+      return
+    }
     this.ctx.drawImage(this._untaintedCanvas, 0, 0);
     var self = this;
     var ctx = this.ctx;
