@@ -32,7 +32,6 @@ export class GridPlugin extends PluginBase {
     //self._plot.refreshPlugin(self);
   }
   refresh(canvas) {
-    console.log(this.options);
     var ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.globalAlpha = this.options.borderStyle.opacity;

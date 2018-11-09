@@ -4,6 +4,7 @@
 /* global module */
 /* global require */
 import { PluginBase } from "./PluginBase";
+import * as $ from "jquery";
 import { SelectorPlugin } from "./SelectorPlugin";
 import { ZoomPlugin } from "./ZoomPlugin";
 import { GridPlugin } from "./GridPlugin";
@@ -11,6 +12,7 @@ import { SliderPlugin } from "./SliderPlugin";
 import { Plot } from "./Plot";
 import { AudioBuff } from "./AudioBuff";
 import * as controls from "./controls";
+import "font-awesome/css/font-awesome.css";
 Plot.SelectorPlugin = SelectorPlugin;
 Plot.ZoomPlugin = ZoomPlugin;
 Plot.GridPlugin = GridPlugin;
@@ -37,11 +39,14 @@ export class AudioPlayer extends PluginBase {
     this._controlPlugins = [];
     var that = this;
     this.context = new AudioContext();
+    this.spinner = $("<i class='fa fa-spin fa-spinner' style='position:absolute;left:50%;top:50%;font-size:30px;display:none;z-index: 100; color: white;'></i>");
+
     that._events = {};
     if (typeof container === "string") {
       container = document.querySelector(container);
     }
     this.container = container;
+    this.container.appendChild(this.spinner[0]);
     container.style.position = "relative";
     var buttonContainer = document.createElement("div");
     this.buttonContainer = buttonContainer;
@@ -58,13 +63,19 @@ export class AudioPlayer extends PluginBase {
     container.appendChild(plotContianer);
     this._plotContainer = plotContianer;
     this.plot = new Plot(plotContianer, this.options.plot);
+    this.plot.on("replot:start",()=>{
+      this.spinner.show();
+    });
+    this.plot.on("replot",()=>{
+      this.spinner.hide();
+    });
     this.resize();
     this.slider.addTo(this.plot);
     this.callInitHooks();
   }
 
   resize() {
-    this._plotContainer.style.height = this.container.clientHeight - 30 +"px";
+    this._plotContainer.style.height = this.container.clientHeight - 30 + "px";
     this.plot._resize();
   }
 
@@ -77,13 +88,16 @@ export class AudioPlayer extends PluginBase {
     button.setAttribute("data-tooltip", control.options.toolTip);
     this.buttonContainer.appendChild(button);
   }
-  load(url) {
+  load(url, useCredentials = false) {
+    this.spinner.show();
     var self = this;
     var request = new XMLHttpRequest();
     request.open('GET', url, true);
     request.responseType = 'arraybuffer';
+    request.withCredentials = useCredentials;
     request.onload = function() {
       // decode the data
+      
       self.context.decodeAudioData(request.response, function(buff) {
         if (self.buffer) {
           self.buffer.stop();
@@ -99,6 +113,8 @@ export class AudioPlayer extends PluginBase {
 
         window.requestAnimationFrame(timer);
       }, self.onError);
+      
+      //self.plot.worker.postMessage(request.response, [request.response]);
     };
     request.send();
   }
@@ -151,11 +167,11 @@ AudioPlayer.addInitHook = function(fn) { // (Function) || (String, args...)
 for (let key in controls) {
   var control = controls[key];
   if (control.hasOwnProperty("mergeOptions")) {
-    console.log("mergeOptions", control.mergeOptions);
+    //console.log("mergeOptions", control.mergeOptions);
     AudioPlayer.mergeOptions(control.mergeOptions);
   }
   if (control.hasOwnProperty("initHook")) {
-    console.log("initHook", control.initHook);
+    //console.log("initHook", control.initHook);
     AudioPlayer.addInitHook(control.initHook);
   }
 }

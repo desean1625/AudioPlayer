@@ -20,7 +20,6 @@ export class SelectorPlugin extends PluginBase {
   }
   onRemove(plot) {
     var self = this;
-    console.log("ON REMOVE");
     plot.off("mousedown", self._handleMouseDown, self);
     plot.off("mousemove", self._handleMouseMove, self);
     plot.off("mouseup", self._handleMouseUp, self);
@@ -35,7 +34,6 @@ export class SelectorPlugin extends PluginBase {
   }
   _handleMouseDown(e) {
     var self = this;
-    console.log(e);
     if (e.originalEvent.which === self.options.mouseButton) {
       self.emit("startSelect", e);
       self._start = e;
@@ -81,8 +79,8 @@ export class SelectorPlugin extends PluginBase {
     ctx.lineCap = this.options.edgeStyle.lineCap;
     ctx.strokeStyle = this.options.edgeStyle.color;
     ctx.beginPath();
-    var start = this._start.originalEvent.offsetX + 0.5;
-    var stop = this._stop.originalEvent.offsetX + 0.5;
+    var start = (this._start.originalEvent.offsetX?this._start.originalEvent.offsetX:this._start.originalEvent.layerX) + 0.5;
+    var stop = (this._stop.originalEvent.offsetX?this._stop.originalEvent.offsetX:this._stop.originalEvent.layerX) + 0.5;
     var top = this._plot.options.marginTopBottom;
     var bottom = canvas.height - (this._plot.options.marginTopBottom * 2);
     ctx.moveTo(start, top);

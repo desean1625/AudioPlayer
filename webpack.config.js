@@ -9,7 +9,7 @@ function noop() { }
 
 module.exports = {
   entry: {
-    audioplot: ['./src/AudioPlayer.js'],
+    audioplot: ['babel-polyfill','./src/AudioPlayer.js'],
   },
   output: {
     filename: "[name].bundle.js",
@@ -51,7 +51,7 @@ module.exports = {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: ["css-loader", "postcss-loader"],
+          use: ["css-loader"],
           publicPath: './'
         })
       },
