@@ -63,10 +63,10 @@ export class AudioPlayer extends PluginBase {
     container.appendChild(plotContianer);
     this._plotContainer = plotContianer;
     this.plot = new Plot(plotContianer, this.options.plot);
-    this.plot.on("replot:start",()=>{
+    this.plot.on("replot:start", () => {
       this.spinner.show();
     });
-    this.plot.on("replot",()=>{
+    this.plot.on("replot", () => {
       this.spinner.hide();
     });
     this.resize();
@@ -88,6 +88,27 @@ export class AudioPlayer extends PluginBase {
     button.setAttribute("data-tooltip", control.options.toolTip);
     this.buttonContainer.appendChild(button);
   }
+  setArrayBuffer(buffer){
+    this.context.decodeAudioData(buffer,(buff)=>{
+      if (this.buffer) {
+          this.buffer.stop();
+        }
+        // when the audio is decoded save to the audio buffer
+        this.buffer = new AudioBuff(this, buff);
+        this.plot.processBuffer(buff);
+        this.plot.plotWaveform();
+        var timer = ()=> {
+          this.slider.setTime(this.buffer.getTime());
+          this._sliderTimer = window.requestAnimationFrame(timer);
+        };
+        if(this._sliderTimer){
+          window.cancelAnimationFrame(this._sliderTimer)
+        }
+        window.requestAnimationFrame(timer);
+    },this.onError).catch(e=>{
+      console.log(e)
+    })
+  }
   load(url, useCredentials = false) {
     this.spinner.show();
     var self = this;
@@ -97,29 +118,13 @@ export class AudioPlayer extends PluginBase {
     request.withCredentials = useCredentials;
     request.onload = function() {
       // decode the data
-      
-      self.context.decodeAudioData(request.response, function(buff) {
-        if (self.buffer) {
-          self.buffer.stop();
-        }
-        // when the audio is decoded save to the audio buffer
-        self.buffer = new AudioBuff(self, buff);
-        self.plot.processBuffer(buff);
-        self.plot.plotWaveform();
-        var timer = function() {
-          self.slider.setTime(self.buffer.getTime());
-          window.requestAnimationFrame(timer);
-        };
-
-        window.requestAnimationFrame(timer);
-      }, self.onError);
-      
+      self.setArrayBuffer(request.response);
       //self.plot.worker.postMessage(request.response, [request.response]);
     };
     request.send();
   }
   onError(e) {
-    console.log(e);
+    console.log(e,e.message);
   }
   play(start) {
     var self = this;
